@@ -27,17 +27,82 @@ Mentre sei nel Content Drawer, cerca "PlayerController" nella cartella **Engine*
 
 Si aprirà la finestra "Add C++ Class". Clicca su "Create Class" e attendi che l'operazione finisca.
 
-### Passo 3 - Aggiornare il nuovo MyPlayerController
+Alla fine della creazione, si apriranno due file: MyPlayerController.h e MyPlayerController.cpp.
+
+### Passo 3 - Aggiornare il MyPlayerController
 
 Una volta che MyPlayerController è stato creato, devi aggiornarlo con il codice che sovrascrive la posizione dell'audio listener.
 
-Per fare ciò, cerca MyPlayerController nella cartella **C++ Classes** e fai doppio clic su di esso. Si apriranno i file MyPlayerController.h e MyPlayerController.cpp.
+I file MyPlayerController.h e MyPlayerController.cpp dovrebbero ora essere già aperti nel tuo IDE (Visual Studio, XCode o simili). Se non lo sono, puoi aprirli cliccando su MyPlayerController nella cartella **C++ Classes**.
 
 [![my-player-controller.png](https://i.postimg.cc/PxQyZmp0/my-player-controller.png)](https://postimg.cc/Vr5XP0FF)
 
-Sostituisci il codice di MyPlayerController.h e MyPlayerController.cpp con quello dei due file condivisi in questa repository.
+#### Aggiornare MyPlayerController.h
 
-**IMPORTANTE: Aggiorna il {{PROJECT_NAME}} all'interno di MyPlayerController.h con il nome effettivo del progetto, in maiuscolo. Questo è l'unico cambiamento necessario nei 2 file.**
+Nel file MyPlayerController.h, sotto GENERATED_BODY(), incolla la seguente riga di codice: 
+```
+virtual void GetAudioListenerPosition(FVector& OutLocation, FVector& OutFrontDir, FVector& OutRightDir) const;
+```
+Il risultato deve essere uguale a questo, eccetto per il nome del progetto (in questo esempio è "PROJECT"):
+```
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/PlayerController.h"
+#include "MyPlayerController.generated.h"
+
+/**
+ * 
+ */
+UCLASS()
+class PROJECT_API AMyPlayerController : public APlayerController
+{
+    GENERATED_BODY()
+    
+    virtual void GetAudioListenerPosition(FVector& OutLocation, FVector& OutFrontDir, FVector& OutRightDir) const;
+};
+```
+
+#### Aggiornare MyPlayerController.cpp
+
+Sostituisci il codice in MyPlayerController.cpp con il codice qui sotto:
+
+```
+#include "MyPlayerController.h"
+
+void AMyPlayerController::GetAudioListenerPosition(FVector& OutLocation, FVector& OutFrontDir, FVector& OutRightDir) const {
+    
+    FVector ViewLocation;
+    FRotator ViewRotation;
+
+    if (bOverrideAudioListener) {
+        USceneComponent* ListenerComponent = AudioListenerComponent.Get();
+        if (ListenerComponent != nullptr) {
+            ViewRotation = ListenerComponent->GetComponentRotation() + AudioListenerRotationOverride;
+            ViewLocation = ListenerComponent->GetComponentLocation() + ViewRotation.RotateVector(AudioListenerLocationOverride);
+        } else {
+            ViewLocation = AudioListenerLocationOverride;
+            ViewRotation = AudioListenerRotationOverride;
+        }
+    } else {
+        GetPlayerViewPoint(ViewLocation, ViewRotation);
+        if (GetPawn()) {
+            ViewLocation = GetPawn()->GetActorLocation();
+        }
+    }
+
+    const FRotationTranslationMatrix ViewRotationMatrix(ViewRotation, ViewLocation);
+
+    OutLocation = ViewLocation;
+    OutFrontDir = ViewRotationMatrix.GetUnitAxis(EAxis::X);
+    OutRightDir = ViewRotationMatrix.GetUnitAxis(EAxis::Y);
+
+}
+```
+
+>Puoi trovare il codice dei due file anche in questa repository. Importante: ricorda di sostituire il nome del progetto nel file MyPlayerController.h se decidi di sostituire i file del progetto con quelli scaricati da questa repository.
 
 ### Passo 4 - Compilare
 
