@@ -69,6 +69,7 @@ class PROJECT_API AMyPlayerController : public APlayerController
 #### Update MyPlayerController.cpp
 
 Replace the code inside MyPlayerController.cpp with the following one:
+
 ```
 #include "MyPlayerController.h"
 
@@ -101,6 +102,8 @@ void AMyPlayerController::GetAudioListenerPosition(FVector& OutLocation, FVector
 
 }
 ```
+
+>You can find the two code files in this repository. Important: Remember to replace the project name in the MyPlayerController.h file if you choose to replace the project files with the ones downloaded from this repository.
 
 ### Step 4 - Compile
 
