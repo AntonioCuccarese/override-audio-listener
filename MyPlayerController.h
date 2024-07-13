@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class {{PROJECT_NAME}}_API AMyPlayerController : public APlayerController
+class PROJECT_API AMyPlayerController : public APlayerController
 {
     GENERATED_BODY()
     
