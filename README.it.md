@@ -102,7 +102,9 @@ void AMyPlayerController::GetAudioListenerPosition(FVector& OutLocation, FVector
 }
 ```
 
->Puoi trovare il codice dei due file anche in questa repository. Importante: ricorda di sostituire il nome del progetto nel file MyPlayerController.h se decidi di sostituire i file del progetto con quelli scaricati da questa repository.
+Puoi trovare il codice dei due file anche in questa repository. 
+
+**IMPORTANTE: ricorda di sostituire il nome del progetto nel file MyPlayerController.h se decidi di sostituire i file del progetto con quelli scaricati da questa repository.**
 
 ### Passo 4 - Compilare
 
