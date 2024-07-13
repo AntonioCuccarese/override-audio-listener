@@ -5,7 +5,9 @@
 
 This is a guide to override Audio Listener in Unreal Engine 5 by using a custom PlayerController.
 
-This new controller, called **MyPlayerController**, will extend the original PlayerController, overriding the audio listener function.
+This new controller, called **MyPlayerController**, will extend the original PlayerController, overriding the position of the audio listener.
+
+In particular, the audio listener will be placed on the player instead of being placed on the camera.
 
 ## How to
 
@@ -27,7 +29,7 @@ It will open the "Add C++ Class" window. Click on "Create Class" and wait for th
 
 ### Step 3 - Update the new MyPlayerController
 
-Once the MyPlayerController has been created you have to update it with the code that overrides the audio listener.
+Once the MyPlayerController has been created you have to update it with the code that overrides the audio listener position.
 
 In order to do that, search for MyPlayerController inside the **C++ Classes** folder and double click on it. It will open MyPlayerController.h and MyPlayerController.cpp.
 
